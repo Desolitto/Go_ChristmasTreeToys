@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package tree
 
 type TreeNode struct {
 	HasToy bool
@@ -12,7 +10,13 @@ func countToys(node *TreeNode) int {
 	if node == nil {
 		return 0
 	}
-	return 1 + countToys(node.Left) + countToys(node.Right)
+	count := 0
+	if node.HasToy {
+		count = 1
+	}
+	count += countToys(node.Left)
+	count += countToys(node.Right)
+	return count
 }
 
 func areToysBalanced(root *TreeNode) bool {
@@ -20,21 +24,18 @@ func areToysBalanced(root *TreeNode) bool {
 		return true
 	}
 
-	leftCount := countToys(root.Left)
-	rightCount := countToys(root.Right)
-
-	return leftCount == rightCount
+	return countToys(root.Left) == countToys(root.Right)
 }
 
-func main() {
-	root := &TreeNode{
-		HasToy: true,
-		Left: &TreeNode{
-			HasToy: true,
-		},
-		Right: &TreeNode{
-			HasToy: true,
-		},
-	}
-	fmt.Println(areToysBalanced(root))
-}
+// func main() {
+// 	root := &TreeNode{
+// 		HasToy: true,
+// 		Left: &TreeNode{
+// 			HasToy: true,
+// 		},
+// 		Right: &TreeNode{
+// 			HasToy: true,
+// 		},
+// 	}
+// 	fmt.Println(areToysBalanced(root))
+// }
