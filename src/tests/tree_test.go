@@ -1,81 +1,84 @@
-package tree
+package tests
 
-import "testing"
+import (
+	"testing"
+	"tree-toys/src/pkg"
+)
 
 func TestBalancedTrue(t *testing.T) {
-	tree := TreeNode{
+	tree := pkg.TreeNode{
 		HasToy: false,
-		Left: &TreeNode{
+		Left: &pkg.TreeNode{
 			HasToy: false,
-			Left: &TreeNode{
+			Left: &pkg.TreeNode{
 				HasToy: false,
 				Left:   nil,
 				Right:  nil,
 			},
-			Right: &TreeNode{
+			Right: &pkg.TreeNode{
 				HasToy: true,
 				Left:   nil,
 				Right:  nil,
 			},
 		},
-		Right: &TreeNode{
+		Right: &pkg.TreeNode{
 			HasToy: true,
 			Left:   nil,
 			Right:  nil,
 		},
 	}
 
-	got := areToysBalanced(&tree)
+	got := pkg.AreToysBalanced(&tree)
 	if got != true {
 		t.Error("Got false, but true needed")
 	}
 }
 
 func TestBalancedFalse(t *testing.T) {
-	tree := TreeNode{
+	tree := pkg.TreeNode{
 		HasToy: true,
-		Left: &TreeNode{
+		Left: &pkg.TreeNode{
 			HasToy: true,
 			Left:   nil,
 			Right:  nil,
 		},
-		Right: &TreeNode{
+		Right: &pkg.TreeNode{
 			HasToy: false,
 			Left:   nil,
 			Right:  nil,
 		},
 	}
 
-	got := areToysBalanced(&tree)
+	got := pkg.AreToysBalanced(&tree)
 	if got != false {
 		t.Error("Got true, but false needed")
 	}
 }
 
 func TestUnroll(t *testing.T) {
-	tree := TreeNode{
+	tree := pkg.TreeNode{
 		HasToy: true,
-		Left: &TreeNode{
+		Left: &pkg.TreeNode{
 			HasToy: true,
-			Left: &TreeNode{
+			Left: &pkg.TreeNode{
 				HasToy: true,
 				Left:   nil,
 				Right:  nil,
 			},
-			Right: &TreeNode{
+			Right: &pkg.TreeNode{
 				HasToy: false,
 				Left:   nil,
 				Right:  nil,
 			},
 		},
-		Right: &TreeNode{
+		Right: &pkg.TreeNode{
 			HasToy: false,
-			Left: &TreeNode{
+			Left: &pkg.TreeNode{
 				HasToy: true,
 				Left:   nil,
 				Right:  nil,
 			},
-			Right: &TreeNode{
+			Right: &pkg.TreeNode{
 				HasToy: true,
 				Left:   nil,
 				Right:  nil,
@@ -83,7 +86,7 @@ func TestUnroll(t *testing.T) {
 		},
 	}
 
-	got := unrollGarland(&tree)
+	got := pkg.UnrollGarland(&tree)
 	expect := []bool{true, true, false, true, true, false, true}
 	if !equalSlices(got, expect) {
 		t.Errorf("Got %v; expected %v", got, expect)
